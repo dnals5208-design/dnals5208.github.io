@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사업부별 데이터 수집</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .date-range {
+            display: flex;
+            gap: 10px;
+        }
+        .date-range > div {
+            flex: 1;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>데이터 비교</h1>
+
+        <div class="form-group">
+            <label for="business-unit">사업부 선택</label>
+            <select id="business-unit" name="business-unit">
+                <option value="hackers_english">해커스영어</option>
+                <option value="hackers_ingang">해커스인강</option>
+                <option value="hackers_language">해커스어학원</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <h2>A 기간</h2>
+            <div class="date-range">
+                <div>
+                    <label for="start-date-A">시작일</label>
+                    <input type="date" id="start-date-A" name="start-date-A">
+                </div>
+                <div>
+                    <label for="end-date-A">종료일</label>
+                    <input type="date" id="end-date-A" name="end-date-A">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h2>B 기간</h2>
+            <div class="date-range">
+                <div>
+                    <label for="start-date-B">시작일</label>
+                    <input type="date" id="start-date-B" name="start-date-B">
+                </div>
+                <div>
+                    <label for="end-date-B">종료일</label>
+                    <input type="date" id="end-date-B" name="end-date-B">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
