@@ -3,124 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>데이터 분석 요청 대시보드</title>
+    <title>데이터 분석 요청</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
         :root {
-            --primary-color: #4F46E5; /* 모던한 인디고 블루 */
-            --primary-hover: #4338ca;
-            --bg-color: #F3F4F6;
-            --card-bg: #ffffff;
-            --text-main: #111827;
-            --text-sub: #6B7280;
-            --border-color: #E5E7EB;
+            /* 테마 색상: 연보라 & 보라 */
+            --primary-color: #8B5CF6; /* 메인 보라색 */
+            --primary-hover: #7C3AED; /* 진한 보라 (호버시) */
+            --bg-gradient-start: #F3E8FF; /* 아주 연한 보라 배경 */
+            --bg-gradient-end: #E9D5FF;
+            --text-main: #333333;
+            --input-bg: #FFFFFF;
+            --border-color: #DDD6FE; /* 연보라 테두리 */
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
         }
 
         body {
-            font-family: 'Pretendard', sans-serif;
-            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
             margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             color: var(--text-main);
+            padding: 20px;
         }
 
         .container {
-            background: var(--card-bg);
+            background: #ffffff;
             width: 100%;
-            max-width: 520px;
+            max-width: 500px; /* 적당한 카드 크기 */
             padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15); /* 보라색 그림자 */
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        .header {
+        h1 {
             text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            margin: 0 0 8px 0;
-            color: var(--text-main);
-        }
-
-        .header p {
-            font-size: 14px;
-            color: var(--text-sub);
-            margin: 0;
-        }
-
-        .section-title {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 22px;
             color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
-            margin-top: 24px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-            margin-left: 10px;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 800;
         }
 
         .input-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            color: #555;
         }
 
-        /* 입력창 디자인 개선 */
+        /* 입력창 디자인 */
         input, select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             font-size: 15px;
-            font-family: inherit;
-            background-color: #F9FAFB;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
+            background-color: var(--input-bg);
+            transition: all 0.2s;
             outline: none;
-            color: var(--text-main);
+            color: #333;
         }
 
         input:focus, select:focus {
-            background-color: #fff;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); /* 보라색 포커스링 */
         }
 
-        /* 날짜 입력창 placeholder 트릭 */
-        input[type="date"] {
-            color: var(--text-main);
+        /* [핵심] 날짜 입력창 트릭 
+           처음엔 type="text"로 빈칸을 보여주고, 
+           클릭(Focus)하면 type="date"로 바뀌어 달력이 뜨게 함 
+        */
+        input[type="text"].date-input-trick {
+            color: #333;
         }
-        
-        /* 날짜 레이아웃 */
+
+        /* 구분선 */
+        .divider {
+            height: 1px;
+            background-color: #F3F4F6;
+            margin: 25px 0;
+            position: relative;
+        }
+        .divider span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #9CA3AF;
+            font-weight: 600;
+        }
+
         .date-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 15px;
         }
 
-        /* 버튼 디자인 */
+        /* 전송 버튼 */
         .btn-submit {
             width: 100%;
             padding: 16px;
@@ -131,25 +126,22 @@
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 32px;
-            transition: transform 0.1s ease, background-color 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+            margin-top: 10px;
+            transition: background-color 0.2s, transform 0.1s;
         }
 
         .btn-submit:hover {
             background-color: var(--primary-hover);
-            transform: translateY(-1px);
         }
-
+        
         .btn-submit:active {
-            transform: translateY(1px);
+            transform: scale(0.98);
         }
 
-        /* 로딩 애니메이션 */
-        .btn-submit.loading {
-            background-color: #9CA3AF;
-            cursor: not-allowed;
-            transform: none;
+        /* 로딩 상태 */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
         }
 
     </style>
@@ -157,56 +149,55 @@
 <body>
 
     <div class="container">
-        <div class="header">
-            <h1>데이터 비교 요청</h1>
-            <p>분석할 기간과 사업부를 선택해주세요.</p>
-        </div>
+        <h1>📊 데이터 비교 요청</h1>
 
         <div class="input-group">
             <label>요청자 이름</label>
-            <input type="text" id="user-name" placeholder="예: 김철수">
+            <input type="text" id="user-name" placeholder="이름을 입력하세요">
         </div>
 
         <div class="input-group">
-            <label>사업부 선택</label>
+            <label>사업부</label>
             <select id="business-unit">
-                <option value="" disabled selected>사업부를 선택하세요</option>
+                <option value="" disabled selected>사업부 선택</option>
                 <option value="hackers_english">해커스영어</option>
                 <option value="hackers_ingang">해커스인강</option>
                 <option value="hackers_language">해커스어학원</option>
             </select>
         </div>
 
-        <div class="section-title">Period A (기준 기간)</div>
-        <div class="date-row">
+        <div class="divider"><span>기간 설정</span></div>
+
+        <label style="color:var(--primary-color); margin-bottom:10px;">기준 기간 (A)</label>
+        <div class="date-row input-group">
             <div>
-                <label>시작일</label>
-                <input type="text" id="start-date-A" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <input type="text" id="start-date-A" class="date-input-trick" placeholder="시작일" 
+                       onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
             </div>
             <div>
-                <label>종료일</label>
-                <input type="text" id="end-date-A" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <input type="text" id="end-date-A" class="date-input-trick" placeholder="종료일" 
+                       onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
             </div>
         </div>
 
-        <div class="section-title">Period B (비교 기간)</div>
-        <div class="date-row">
+        <label style="color:var(--primary-color); margin-bottom:10px;">비교 기간 (B)</label>
+        <div class="date-row input-group">
             <div>
-                <label>시작일</label>
-                <input type="text" id="start-date-B" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <input type="text" id="start-date-B" class="date-input-trick" placeholder="시작일" 
+                       onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
             </div>
             <div>
-                <label>종료일</label>
-                <input type="text" id="end-date-B" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <input type="text" id="end-date-B" class="date-input-trick" placeholder="종료일" 
+                       onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
             </div>
         </div>
 
-        <button type="button" class="btn-submit" onclick="sendDataToN8n()">데이터 전송하기</button>
+        <button type="button" class="btn-submit" onclick="sendData()">데이터 전송</button>
     </div>
 
     <script>
-        function sendDataToN8n() {
-            // 입력값 가져오기
+        function sendData() {
+            // 값 가져오기
             const userName = document.getElementById('user-name').value;
             const businessUnit = document.getElementById('business-unit').value;
             const startDateA = document.getElementById('start-date-A').value;
@@ -218,28 +209,27 @@
             if (!userName) { alert("요청자 이름을 입력해주세요."); return; }
             if (!businessUnit) { alert("사업부를 선택해주세요."); return; }
             if (!startDateA || !endDateA || !startDateB || !endDateB) {
-                alert("모든 기간을 설정해주세요.");
+                alert("모든 날짜를 입력해주세요.");
                 return;
             }
 
-            // 버튼 로딩 상태로 변경
+            // 버튼 로딩 처리
             const btn = document.querySelector('.btn-submit');
             const originalText = btn.innerText;
             btn.innerText = "전송 중...";
             btn.classList.add('loading');
-            btn.disabled = true;
 
-            // 보낼 데이터 구성
+            // 데이터 포맷팅
             const payload = {
-                requester: userName, // 요청자 이름 추가
+                requester: userName,
                 business_unit: businessUnit,
                 period_A: { start: startDateA, end: endDateA },
                 period_B: { start: startDateB, end: endDateB },
-                request_time: new Date().toISOString()
+                created_at: new Date().toISOString()
             };
 
             // ==========================================
-            // [주의] 여기에 n8n Tunnel URL을 넣으세요
+            // [체크] n8n 터널 URL을 여기에 입력하세요
             // ==========================================
             const webhookUrl = 'http://localhost:5677/webhook-test/732d0e94-da9b-4e0c-80c5-10c46f838e37'; 
 
@@ -250,20 +240,18 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('🚀 데이터 전송 완료! n8n을 확인하세요.');
+                    alert('✅ 데이터 전송 성공!');
                 } else {
-                    alert('❌ 전송 실패. 서버 상태를 확인하세요.');
+                    alert('❌ 전송 실패');
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
-                alert('⚠️ 에러 발생: ' + error);
+                console.error(error);
+                alert('⚠️ 에러: ' + error);
             })
             .finally(() => {
-                // 버튼 원상복구
                 btn.innerText = originalText;
                 btn.classList.remove('loading');
-                btn.disabled = false;
             });
         }
     </script>
