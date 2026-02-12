@@ -3,119 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>데이터 수집 대시보드</title>
+    <title>데이터 분석 요청 대시보드</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* 1. 기본 스타일 초기화 및 폰트 설정 */
-        * {
-            box-sizing: border-box;
+        :root {
+            --primary-color: #4F46E5; /* 모던한 인디고 블루 */
+            --primary-hover: #4338ca;
+            --bg-color: #F3F4F6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-sub: #6B7280;
+            --border-color: #E5E7EB;
         }
+
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Pretendard', sans-serif;
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
             margin: 0;
-            padding: 40px 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            color: var(--text-main);
         }
 
-        /* 2. 메인 컨테이너 (카드 디자인) */
         .container {
-            background-color: #ffffff;
+            background: var(--card-bg);
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            margin: 20px;
         }
 
-        h1 {
+        .header {
             text-align: center;
-            color: #1a1a1a;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
             font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: var(--text-main);
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--text-sub);
+            margin: 0;
+        }
+
+        .section-title {
+            font-size: 13px;
             font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+            margin-left: 10px;
         }
 
-        h2 {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 10px;
-            border-left: 4px solid #007bff;
-            padding-left: 10px;
-            margin-top: 0;
-        }
-
-        /* 3. 입력 폼 스타일 */
-        .section {
-            margin-bottom: 30px;
-            background: #fafafa;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
+        .input-group {
+            margin-bottom: 16px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            font-size: 13px;
             font-weight: 600;
-            color: #333;
-            font-size: 14px;
+            color: var(--text-main);
+            margin-bottom: 6px;
         }
 
         /* 입력창 디자인 개선 */
-        select, input[type="date"] {
+        input, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             font-size: 15px;
-            background-color: #fff;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            color: #333;
+            font-family: inherit;
+            background-color: #F9FAFB;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
             outline: none;
+            color: var(--text-main);
         }
 
-        /* 포커스 효과 */
-        select:focus, input[type="date"]:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        input:focus, select:focus {
+            background-color: #fff;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
 
-        /* 날짜 입력 가로 배치 */
+        /* 날짜 입력창 placeholder 트릭 */
+        input[type="date"] {
+            color: var(--text-main);
+        }
+        
+        /* 날짜 레이아웃 */
         .date-row {
-            display: flex;
-            gap: 15px;
-        }
-        .date-col {
-            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
-        /* 4. 버튼 스타일 (크고 누르기 좋게) */
+        /* 버튼 디자인 */
         .btn-submit {
             width: 100%;
             padding: 16px;
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 32px;
+            transition: transform 0.1s ease, background-color 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
         }
 
         .btn-submit:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
-        
+
         .btn-submit:active {
-            transform: scale(0.98);
+            transform: translateY(1px);
+        }
+
+        /* 로딩 애니메이션 */
+        .btn-submit.loading {
+            background-color: #9CA3AF;
+            cursor: not-allowed;
+            transform: none;
         }
 
     </style>
@@ -123,11 +157,19 @@
 <body>
 
     <div class="container">
-        <h1>📊 데이터 비교 요청</h1>
+        <div class="header">
+            <h1>데이터 비교 요청</h1>
+            <p>분석할 기간과 사업부를 선택해주세요.</p>
+        </div>
 
-        <div class="form-group">
-            <label for="business-unit">대상 사업부</label>
-            <select id="business-unit" name="business-unit">
+        <div class="input-group">
+            <label>요청자 이름</label>
+            <input type="text" id="user-name" placeholder="예: 김철수">
+        </div>
+
+        <div class="input-group">
+            <label>사업부 선택</label>
+            <select id="business-unit">
                 <option value="" disabled selected>사업부를 선택하세요</option>
                 <option value="hackers_english">해커스영어</option>
                 <option value="hackers_ingang">해커스인강</option>
@@ -135,84 +177,71 @@
             </select>
         </div>
 
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
-
-        <div class="section">
-            <h2>비교 기간 A (기준)</h2>
-            <div class="date-row">
-                <div class="date-col">
-                    <label for="start-date-A">시작일</label>
-                    <input type="date" id="start-date-A">
-                </div>
-                <div class="date-col">
-                    <label for="end-date-A">종료일</label>
-                    <input type="date" id="end-date-A">
-                </div>
+        <div class="section-title">Period A (기준 기간)</div>
+        <div class="date-row">
+            <div>
+                <label>시작일</label>
+                <input type="text" id="start-date-A" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div>
+                <label>종료일</label>
+                <input type="text" id="end-date-A" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
             </div>
         </div>
 
-        <div class="section">
-            <h2>비교 기간 B (비교)</h2>
-            <div class="date-row">
-                <div class="date-col">
-                    <label for="start-date-B">시작일</label>
-                    <input type="date" id="start-date-B">
-                </div>
-                <div class="date-col">
-                    <label for="end-date-B">종료일</label>
-                    <input type="date" id="end-date-B">
-                </div>
+        <div class="section-title">Period B (비교 기간)</div>
+        <div class="date-row">
+            <div>
+                <label>시작일</label>
+                <input type="text" id="start-date-B" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div>
+                <label>종료일</label>
+                <input type="text" id="end-date-B" placeholder="날짜 선택" onfocus="(this.type='date')" onblur="(this.type='text')">
             </div>
         </div>
 
-        <button type="button" class="btn-submit" onclick="sendDataToN8n()">데이터 n8n으로 전송하기</button>
-
+        <button type="button" class="btn-submit" onclick="sendDataToN8n()">데이터 전송하기</button>
     </div>
 
     <script>
         function sendDataToN8n() {
-            // 1. 값 가져오기
+            // 입력값 가져오기
+            const userName = document.getElementById('user-name').value;
             const businessUnit = document.getElementById('business-unit').value;
             const startDateA = document.getElementById('start-date-A').value;
             const endDateA = document.getElementById('end-date-A').value;
             const startDateB = document.getElementById('start-date-B').value;
             const endDateB = document.getElementById('end-date-B').value;
 
-            // 2. 유효성 검사
-            if (!businessUnit) {
-                alert("사업부를 선택해주세요.");
-                return;
-            }
+            // 유효성 검사
+            if (!userName) { alert("요청자 이름을 입력해주세요."); return; }
+            if (!businessUnit) { alert("사업부를 선택해주세요."); return; }
             if (!startDateA || !endDateA || !startDateB || !endDateB) {
-                alert("모든 날짜를 선택해주세요.");
+                alert("모든 기간을 설정해주세요.");
                 return;
             }
 
-            // 3. 데이터 패키징
-            const payload = {
-                business_unit: businessUnit,
-                period_A: { start: startDateA, end: endDateA },
-                period_B: { start: startDateB, end: endDateB },
-                timestamp: new Date().toISOString()
-            };
-
-            // ==========================================
-            // [중요] 아까 생성한 Tunnel URL을 여기에 넣으세요!
-            // 예: https://afjw-324-....hooks.n8n.cloud/webhook/...
-            // ==========================================
-            const webhookUrl = 'http://localhost:5677/webhook-test/732d0e94-da9b-4e0c-80c5-10c46f838e37'; 
-            
-            // 로컬 테스트용 알림 (실제 배포시 삭제 가능)
-            if(webhookUrl.includes("localhost") && window.location.hostname !== "localhost") {
-                alert("주의: GitHub Pages에서는 localhost 주소로 전송할 수 없습니다. n8n Tunnel URL을 사용해주세요!");
-            }
-
-            // 4. 전송 (Fetch API)
-            // 버튼 텍스트 변경 (로딩 중 표시)
+            // 버튼 로딩 상태로 변경
             const btn = document.querySelector('.btn-submit');
             const originalText = btn.innerText;
             btn.innerText = "전송 중...";
+            btn.classList.add('loading');
             btn.disabled = true;
+
+            // 보낼 데이터 구성
+            const payload = {
+                requester: userName, // 요청자 이름 추가
+                business_unit: businessUnit,
+                period_A: { start: startDateA, end: endDateA },
+                period_B: { start: startDateB, end: endDateB },
+                request_time: new Date().toISOString()
+            };
+
+            // ==========================================
+            // [주의] 여기에 n8n Tunnel URL을 넣으세요
+            // ==========================================
+            const webhookUrl = 'http://localhost:5677/webhook-test/732d0e94-da9b-4e0c-80c5-10c46f838e37'; 
 
             fetch(webhookUrl, {
                 method: 'POST',
@@ -221,10 +250,9 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('✅ 데이터가 n8n으로 성공적으로 전송되었습니다!');
-                    console.log('Success:', response);
+                    alert('🚀 데이터 전송 완료! n8n을 확인하세요.');
                 } else {
-                    alert('❌ 전송 실패. n8n 상태를 확인하세요.');
+                    alert('❌ 전송 실패. 서버 상태를 확인하세요.');
                 }
             })
             .catch((error) => {
@@ -234,6 +262,7 @@
             .finally(() => {
                 // 버튼 원상복구
                 btn.innerText = originalText;
+                btn.classList.remove('loading');
                 btn.disabled = false;
             });
         }
